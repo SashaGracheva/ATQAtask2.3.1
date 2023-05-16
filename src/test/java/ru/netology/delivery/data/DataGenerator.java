@@ -6,13 +6,14 @@ import lombok.Value;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.Random;
 
 
 public class DataGenerator {
     private DataGenerator() {
     }
 
-    public static Faker faker = new Faker(new Locale("ru"));
+   // public static Faker faker = new Faker(new Locale("ru"));
 
 
     public static String generateDate(int shift) {
@@ -20,17 +21,18 @@ public class DataGenerator {
     }
 
 
-    public static String generateCity(String locale) {
-
-        return faker.address().city();
+    public static String generateCity() {
+        var cities = new String[]{"Москва", "Санкт-Петербург", "Казань", "Самара", "Владивосток"};
+        return cities[new Random().nextInt(cities.length)];
     }
 
     public static String generateName(String locale) {
+        var faker = new Faker(new Locale("ru"));
         return faker.name().lastName() + " " + faker.name().firstName();
     }
 
     public static String generatePhone(String locale) {
-
+        var faker = new Faker(new Locale(locale));
         return faker.phoneNumber().phoneNumber();
     }
 
@@ -39,7 +41,7 @@ public class DataGenerator {
         }
 
         public static UserInfo generateUser(String locale) {
-            return new UserInfo(generateCity(locale), generateName(locale), generatePhone(locale));
+            return new UserInfo(generateCity(), generateName(locale), generatePhone(locale));
         }
     }
 
